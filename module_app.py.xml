@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_app.py" default="compile.module.app.py">
+  <dirname property="module.app.py.basedir" file="${ant.file.module_app.py}"/>
+  
+  <property name="module.jdk.home.app.py" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.app.py" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.app.py" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.app.py" value="-encoding UTF-8 -source 10 -target 10 ${compiler.args}"/>
+  
+  <property name="app.py.output.dir" value="${module.app.py.basedir}/out/production/app.py"/>
+  <property name="app.py.testoutput.dir" value="${module.app.py.basedir}/out/test/app.py"/>
+  
+  <path id="app.py.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="app.py.module.production.classpath">
+    <path refid="${module.jdk.classpath.app.py}"/>
+  </path>
+  
+  <path id="app.py.runtime.production.module.classpath">
+    <pathelement location="${app.py.output.dir}"/>
+  </path>
+  
+  <path id="app.py.module.classpath">
+    <path refid="${module.jdk.classpath.app.py}"/>
+    <pathelement location="${app.py.output.dir}"/>
+  </path>
+  
+  <path id="app.py.runtime.module.classpath">
+    <pathelement location="${app.py.testoutput.dir}"/>
+    <pathelement location="${app.py.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.app.py">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.app.py">
+    <patternset refid="excluded.from.module.app.py"/>
+  </patternset>
+  
+  
+  <target name="compile.module.app.py" depends="compile.module.app.py.production,compile.module.app.py.tests" description="Compile module app.py"/>
+  
+  <target name="compile.module.app.py.production" depends="register.custom.compilers" description="Compile module app.py; production classes"/>
+  
+  <target name="compile.module.app.py.tests" depends="register.custom.compilers,compile.module.app.py.production" description="compile module app.py; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.app.py" description="cleanup module">
+    <delete dir="${app.py.output.dir}"/>
+    <delete dir="${app.py.testoutput.dir}"/>
+  </target>
+</project>
